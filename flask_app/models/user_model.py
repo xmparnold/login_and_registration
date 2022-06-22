@@ -8,6 +8,11 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 # set some constants for minimum length of first and last name when creating user. these can be changed if we need different values
 MINIMUM_FIRST_NAME_LENGTH = 2
 MINIMUM_LAST_NAME_LENGTH = 2
+MINIMUM_PASSWORD_LENGTH = 6
+# these constants will hold the string of the minimum length for error messages, make sure these match the int constants above
+MINIMUM_FIRST_NAME_LENGTH_STRING = "2"
+MINIMUM_LAST_NAME_LENGTH_STRING = "2"
+MINIMUM_PASSWORD_LENGTH_STRING = "6"
 
 
 class User:
@@ -57,7 +62,7 @@ class User:
         # make sure first name value is longer than the minimum first name length declared in constant variables at top of file
         if len( data[ 'first_name' ] ) < MINIMUM_FIRST_NAME_LENGTH:
             isValid = False
-            flash( "Your first name must be longer than 2 characters", "error_register_first_name" )
+            flash( "Your first name must be longer than " + MINIMUM_FIRST_NAME_LENGTH_STRING + " characters", "error_register_first_name" )
         # make sure last name box has something in it
         if data[ 'last_name' ] == "":
             isValid = False
@@ -65,7 +70,7 @@ class User:
         # make sure last name value is longer than the minimum last name length constant declared at top of file
         if len( data[ 'last_name' ] ) < MINIMUM_LAST_NAME_LENGTH:
             isValid = False
-            flash( "Your last name must be longer than 2 characters", "error_register_last_name" )
+            flash( "Your last name must be longer than " + MINIMUM_LAST_NAME_LENGTH_STRING + " characters", "error_register_last_name" )
         # make sure email box has something entered in it
         if data[ 'email' ] == "":
             isValid = False
@@ -78,6 +83,10 @@ class User:
         if data[ 'password' ] == "":
             isValid = False
             flash( "Please enter a password", "error_register_password" )
+        # make sure password is longer than minimum password length declared in constant at top of file
+        if len(data[ 'password' ]) < MINIMUM_PASSWORD_LENGTH:
+            isValid = False
+            flash( f"Please enter a password of at least " + MINIMUM_PASSWORD_LENGTH_STRING + " characters", "error_register_password" )
         # make sure password confirmation box has something entered in it
         if data[ 'password_confirmation' ] == "":
             isValid = False
